@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.storage import ObjectStorage, StorageNotConfiguredError
+from app.core.storage import ObjectStorage
 from app.modules.documents.models import Document, DocumentStatus
 from app.modules.documents.schemas import DocumentRequirementCreate, DocumentUploadInit
 from app.modules.workforce.service import get_worker
@@ -46,7 +46,7 @@ async def get_document(db: AsyncSession, tenant_id: uuid.UUID, document_id: uuid
         select(Document).where(
             Document.id == document_id,
             Document.tenant_id == tenant_id,
-            Document.is_deleted == False,  # noqa: E712
+            Document.is_deleted == False,
         )
     )
     return result.scalar_one_or_none()
@@ -60,7 +60,7 @@ async def list_documents_for_worker(
         .where(
             Document.tenant_id == tenant_id,
             Document.worker_id == worker_id,
-            Document.is_deleted == False,  # noqa: E712
+            Document.is_deleted == False,
         )
         .order_by(Document.created_at.desc())
     )
@@ -89,12 +89,9 @@ async def init_upload(
     )
 
     expires_in = 300
-    try:
-        upload_url = storage.generate_upload_url(
-            key=storage_key, content_type=payload.content_type, expires_seconds=expires_in
-        )
-    except StorageNotConfiguredError:
-        raise
+    upload_url = storage.generate_upload_url(
+        key=storage_key, content_type=payload.content_type, expires_seconds=expires_in
+    )
 
     return upload_url, storage_key, expires_in
 

@@ -1,7 +1,12 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.security import create_access_token, create_refresh_token, hash_password, verify_password
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    hash_password,
+    verify_password,
+)
 from app.modules.identity.models import User, UserRole
 from app.modules.identity.schemas import RegisterRequest
 from app.modules.tenant.models import Tenant
@@ -25,7 +30,7 @@ class AccountInactiveError(Exception):
 
 async def _get_tenant_by_slug(db: AsyncSession, slug: str) -> Tenant | None:
     result = await db.execute(
-        select(Tenant).where(Tenant.slug == slug, Tenant.is_deleted == False)  # noqa: E712
+        select(Tenant).where(Tenant.slug == slug, Tenant.is_deleted == False)
     )
     return result.scalar_one_or_none()
 
@@ -85,6 +90,6 @@ async def authenticate_user(
 
 async def get_user_by_id(db: AsyncSession, user_id) -> User | None:
     result = await db.execute(
-        select(User).where(User.id == user_id, User.is_deleted == False)  # noqa: E712
+        select(User).where(User.id == user_id, User.is_deleted == False)
     )
     return result.scalar_one_or_none()

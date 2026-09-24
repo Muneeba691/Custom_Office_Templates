@@ -1,4 +1,4 @@
-"""
+﻿"""
 Central configuration for the Cross-Border Workforce OS backend.
 
 All configuration MUST come from environment variables.
@@ -6,13 +6,14 @@ Never hard-code secrets, connection strings, or credentials here.
 """
 
 from functools import lru_cache
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     # --- App ---
     APP_NAME: str = "Cross-Border Workforce OS"
-    ENVIRONMENT: str = "development"  # development | staging | production
+    ENVIRONMENT: str = "development"
     DEBUG: bool = True
     API_V1_PREFIX: str = "/api/v1"
 
@@ -37,6 +38,10 @@ class Settings(BaseSettings):
     STORAGE_SECRET_KEY: str | None = None
     STORAGE_BUCKET: str | None = None
 
+    # --- E-Signature Provider ---
+    ESIGNATURE_API_KEY: str | None = None
+    ESIGNATURE_API_URL: str | None = None
+
     # --- AI Gateway ---
     AI_PROVIDER_API_KEY: str | None = None
     AI_MODEL_DEFAULT: str | None = None
@@ -58,9 +63,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    """
-    Cached settings instance. Import and call get_settings() everywhere
-    instead of instantiating Settings() directly, so the environment is
-    only parsed once per process.
-    """
     return Settings()

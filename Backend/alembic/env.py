@@ -1,3 +1,6 @@
+from app.modules.documents import models as documents_models  # noqa: F401
+from app.modules.workforce import models as workforce_models  # noqa: F401
+from app.modules.agreements import models as agreements_models  # noqa: F401
 from logging.config import fileConfig
 
 from alembic import context

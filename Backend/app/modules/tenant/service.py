@@ -23,6 +23,6 @@ async def create_tenant(db: AsyncSession, payload: TenantCreate) -> Tenant:
 
 async def get_tenant_by_id(db: AsyncSession, tenant_id) -> Tenant | None:
     result = await db.execute(
-        select(Tenant).where(Tenant.id == tenant_id, Tenant.is_deleted == False)  # noqa: E712
+        select(Tenant).where(Tenant.id == tenant_id, Tenant.is_deleted == False)
     )
     return result.scalar_one_or_none()
