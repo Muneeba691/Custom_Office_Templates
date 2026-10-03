@@ -5,7 +5,6 @@ from sqlalchemy import text
 
 from app.core.database import engine
 
-
 async def _register_owner_and_login(client, tenant_name: str):
     slug = f"{tenant_name}-{uuid.uuid4().hex[:8]}"
     create_tenant = await client.post(

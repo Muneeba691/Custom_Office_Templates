@@ -1,17 +1,18 @@
-from app.modules.documents import models as documents_models  # noqa: F401
-from app.modules.workforce import models as workforce_models  # noqa: F401
-from app.modules.agreements import models as agreements_models  # noqa: F401
 from logging.config import fileConfig
 
 from alembic import context
+from app.core.config import get_settings
+from app.core.database import Base
+from app.modules.agreements import models as agreements_models  # noqa: F401
+from app.modules.compensation import models as compensation_models  # noqa: F401
+from app.modules.compliance import models as compliance_models  # noqa: F401
+from app.modules.documents import models as documents_models  # noqa: F401
+from app.modules.identity.models import User  # noqa: F401
+from app.modules.tenant.models import Tenant  # noqa: F401
+from app.modules.workforce import models as workforce_models  # noqa: F401
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
-from app.core.config import get_settings
-from app.core.database import Base
-from app.modules.identity.models import User  # noqa: F401
-from app.modules.tenant.models import Tenant  # noqa: F401
 
 config = context.config
 settings = get_settings()
